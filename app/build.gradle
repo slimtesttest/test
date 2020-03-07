@@ -1,0 +1,115 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        applicationId "com.coyote.testonnech"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+    }
+
+    flavorDimensions "environnement"
+    productFlavors {
+
+        dev {
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            buildConfigField "String", "BASE_URL", "\"https://randomuser.me/\""
+            resValue("string", "app_name", "Coyote Dev")
+            dimension "environnement"
+        }
+        integration {
+            applicationIdSuffix ".integration"
+            versionNameSuffix "-integration"
+            buildConfigField "String", "BASE_URL", "\"https://randomuser.me/\""
+            resValue("string", "app_name", "Coyote Integration")
+            dimension "environnement"
+        }
+        recette {
+            applicationIdSuffix ".recette"
+            versionNameSuffix "-recette"
+            buildConfigField "String", "BASE_URL", "\"https://randomuser.me/\""
+            resValue("string", "app_name", "Coyote Recette")
+            dimension "environnement"
+        }
+        prod {
+            buildConfigField "String", "BASE_URL", "\"https://randomuser.me/\""
+            resValue("string", "app_name", "Coyote")
+            dimension "environnement"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation project(":domain")
+    implementation project(':data')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
+    implementation 'com.google.android.material:material:1.1.0'
+
+    //Rx
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+
+    // Koin AndroidX Scope features
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    // Koin AndroidX ViewModel features
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    // Koin AndroidX Fragment features
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
+    // Koin AndroidX Experimental features
+    implementation "org.koin:koin-androidx-ext:$koin_version"
+
+
+    // Paging
+    implementation "androidx.paging:paging-runtime:2.1.1"
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    implementation "androidx.multidex:multidex:$multidex_version"
+
+
+    // Logs
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
